@@ -36,4 +36,4 @@ class MainActivity : AppCompatActivity() {
             replace( R.id.flFragment, fragment)
             commit()
         }
-    }
+}

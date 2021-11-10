@@ -10,30 +10,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:paddingTop="15dp"
-            android:paddingStart="50dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/upperLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp">
 
             <ImageView
-                android:paddingEnd="10dp"
+                android:id="@+id/imageView"
                 android:layout_width="42dp"
                 android:layout_height="50dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center"
-                android:src="@drawable/ic_main_logo" />
+                android:paddingEnd="10dp"
+                android:src="@drawable/ic_main_logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/appName"
                 android:layout_width="147dp"
                 android:layout_height="50dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/app_name"
-                android:textSize="36sp" />
-        </LinearLayout>
+                android:textSize="36sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:id="@+id/flFragment"
@@ -61,8 +70,7 @@
             android:background="@drawable/rounded_border"
             app:itemIconTint="@color/menuItem"
             app:itemTextColor="@color/menuItem"
-            app:menu="@menu/bottom_menu"
-            />
+            app:menu="@menu/bottom_menu" />
 
     </RelativeLayout>
 

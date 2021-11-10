@@ -33,11 +33,13 @@
         android:textSize="20sp"
         android:textColor="@color/black"/>
 
-    <Button
+    <ToggleButton
         android:id="@+id/coffee_add"
         android:background="@drawable/ic_add_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:textOn=" "
+        android:textOff=" "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

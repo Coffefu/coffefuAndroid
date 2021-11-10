@@ -3,57 +3,36 @@ package com.example.coffefu.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coffefu.R
-import java.io.Serializable
-
-class ProductPosition : Serializable {
-    private var id: Int = 0
-    private var name: String = ""
-    private var price: Int = 0
-
-    fun getId(): Int {
-        return id
-    }
-
-    fun setId(id: Int) {
-        this.id = id
-    }
-
-    fun getName(): String {
-        return name
-    }
-
-    fun setName(name: String) {
-        this.name = name
-    }
-
-    fun getPrice(): Int {
-        return price
-    }
-
-    fun setPrice(price: Int) {
-        this.price = price
-    }
-}
-
-interface PositionListener {
-    fun onPositionClicked(product: ProductPosition, position: Int)
-}
+import com.example.coffefu.entities.ProductPosition
 
 class CoffeePositionsAdapter(private var products: List<ProductPosition>) :
     RecyclerView.Adapter<CoffeePositionsAdapter.NoteViewHolder>() {
 
 
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val coffeName = itemView.findViewById<TextView>(R.id.coffee_name)
-        val coffePrice = itemView.findViewById<TextView>(R.id.coffee_price)
+        private val coffeeName: TextView? = itemView.findViewById(R.id.coffee_name)
+        private val coffeePrice: TextView? = itemView.findViewById(R.id.coffee_price)
+        private val coffeeAdd: ToggleButton? = itemView.findViewById(R.id.coffee_add)
 
         fun setProduct(product: ProductPosition) {
-            coffeName?.text = product.getName()
-            coffePrice?.text = product.getPrice().toString()
+            coffeeName?.text = product.getName()
+            coffeePrice?.text = product.getPrice()
+
+            coffeeAdd?.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+
+                    // Add to database
+
+
+                } else {
+
+                }
+            }
+
         }
     }
 
@@ -68,7 +47,7 @@ class CoffeePositionsAdapter(private var products: List<ProductPosition>) :
     }
 
     override fun getItemCount(): Int {
-        return 1
+        return products.size
     }
 
     override fun getItemViewType(position: Int): Int {

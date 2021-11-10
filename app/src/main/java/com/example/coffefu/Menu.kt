@@ -1,18 +1,17 @@
 package com.example.coffefu
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.coffefu.adapters.CoffeePositionsAdapter
-import com.example.coffefu.adapters.ProductPosition
+import com.example.coffefu.entities.ProductPosition
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -75,20 +74,25 @@ class DemoObjectFragment : Fragment() {
 
             val coffeePositions = view.findViewById<RecyclerView>(R.id.coffeePositions)
             val productsList: List<ProductPosition>
-            val coffeePositionsAdapter: CoffeePositionsAdapter
 
             // test
-            val coffee = ProductPosition()
-            coffee.setId(1)
-            coffee.setName("Раф")
-            coffee.setPrice(180)
+            val coffee1 = ProductPosition()
+            coffee1.setId(1)
+            coffee1.setName("Раф")
+            coffee1.setPrice(180)
+
+            val coffee2 = ProductPosition()
+            coffee2.setId(2)
+            coffee2.setName("Латте")
+            coffee2.setPrice(120)
+
+            val coffee = arrayOf(coffee1, coffee2)
 
             productsList = ArrayList()
-            (productsList as MutableList<ProductPosition>).add(coffee)
-            coffeePositionsAdapter = CoffeePositionsAdapter(productsList)
+            (productsList as MutableList<ProductPosition>).addAll(coffee)
+            val coffeePositionsAdapter: CoffeePositionsAdapter = CoffeePositionsAdapter(productsList)
             coffeePositions.layoutManager = LinearLayoutManager(context)
             coffeePositions.adapter = coffeePositionsAdapter
-            coffeePositionsAdapter.notifyDataSetChanged()
 
         }
     }
