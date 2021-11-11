@@ -7,11 +7,11 @@ import com.example.coffefu.entities.ProductPosition
 @Dao
 interface OrderDao {
     @Query("SELECT * FROM `order` ORDER BY id DESC")
-    fun getOrder(): List<ProductPosition>
+    fun getOrders(): List<ProductPosition>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveProduct(product: ProductPosition)
 
-    @Delete
-    fun deleteProduct(product: ProductPosition)
+    @Query("DELETE FROM 'order' WHERE name = :name")
+    fun deleteProduct(name: String)
 }

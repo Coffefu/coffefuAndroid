@@ -1,7 +1,7 @@
 package com.example.coffefu
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +31,7 @@ class Menu : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        menuAdapter = DemoCollectionAdapter(this)
+        menuAdapter = DemoCollectionAdapter(this, context)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = menuAdapter
 
@@ -42,13 +42,13 @@ class Menu : Fragment() {
     }
 }
 
-class DemoCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class DemoCollectionAdapter(fragment: Fragment, private var context: Context?) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 1
 
     override fun createFragment(position: Int): Fragment {
         // Return a NEW fragment instance in createFragment(int)
-        val fragment = DemoObjectFragment()
+        val fragment = DemoObjectFragment(context)
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
             putInt(ARG_OBJECT, position + 1)
@@ -59,7 +59,7 @@ class DemoCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragment)
 
 private const val ARG_OBJECT = "object"
 
-class DemoObjectFragment : Fragment() {
+class DemoObjectFragment(private var mainContext: Context?) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,7 +90,7 @@ class DemoObjectFragment : Fragment() {
 
             productsList = ArrayList()
             (productsList as MutableList<ProductPosition>).addAll(coffee)
-            val coffeePositionsAdapter: CoffeePositionsAdapter = CoffeePositionsAdapter(productsList)
+            val coffeePositionsAdapter: CoffeePositionsAdapter = CoffeePositionsAdapter(productsList, mainContext)
             coffeePositions.layoutManager = LinearLayoutManager(context)
             coffeePositions.adapter = coffeePositionsAdapter
 
