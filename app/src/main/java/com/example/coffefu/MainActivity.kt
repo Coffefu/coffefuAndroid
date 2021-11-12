@@ -3,6 +3,7 @@ package com.example.coffefu
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
@@ -22,8 +23,8 @@ class MainActivity : AppCompatActivity() {
         // https://newbedev.com/stop-fragment-refresh-in-bottom-nav-using-navhost
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.navigation_bar)
 
-        supportFragmentManager.beginTransaction().add(R.id.flFragment, menu).commit()
-        supportFragmentManager.beginTransaction().add(R.id.flFragment, basket).hide(basket).commit()
+        supportFragmentManager.beginTransaction().add(R.id.flFragment, menu, "menu").commit()
+        supportFragmentManager.beginTransaction().add(R.id.flFragment, basket, "basket").hide(basket).commit()
         supportFragmentManager.beginTransaction().add(R.id.flFragment, feedback).hide(feedback)
             .commit()
 
@@ -39,6 +40,10 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction().hide(active).show(basket)
                         .commit()
                     active = basket
+                    // refresh basket to load new products
+                    active = supportFragmentManager.findFragmentByTag("basket")!!
+                    supportFragmentManager.beginTransaction().detach(active).commit()
+                    supportFragmentManager.beginTransaction().attach(active).commit()
                 }
 
                 R.id.feedback -> {

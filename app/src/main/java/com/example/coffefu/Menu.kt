@@ -76,22 +76,21 @@ class FragmentFactory(private var mainContext: Context?, private var mainActivit
             val coffeePositions = view.findViewById<RecyclerView>(R.id.coffeePositions)
             val productsList: List<ProductPosition>
 
-            // test
-            val coffee1 = ProductPosition()
-            coffee1.setId(1)
-            coffee1.setName("Раф")
-            coffee1.setPrice(180)
-
-            val coffee2 = ProductPosition()
-            coffee2.setId(2)
-            coffee2.setName("Латте")
-            coffee2.setPrice(120)
-
-            val coffee = arrayOf(coffee1, coffee2)
+            // TODO make data as json or maybe store in database!!!
+            val coffeeNames = arrayOf("Раф", "Латте", "Американо", "Капучино", "Мокко")
+            val coffeePrices = arrayOf(180, 120, 100, 150, 200)
+            val coffee = mutableListOf<ProductPosition>()
+            for (i in 0..4) {
+                val tmpCoffee = ProductPosition()
+                tmpCoffee.setId(i)
+                tmpCoffee.setName(coffeeNames[i])
+                tmpCoffee.setPrice(coffeePrices[i])
+                coffee.add(tmpCoffee)
+            }
 
             productsList = ArrayList()
             (productsList as MutableList<ProductPosition>).addAll(coffee)
-            val coffeePositionsAdapter = CoffeePositionsAdapter(productsList, mainContext, mainActivity)
+            val coffeePositionsAdapter = CoffeePositionsAdapter(productsList, mainContext, "Menu", mainActivity)
             coffeePositions.layoutManager = LinearLayoutManager(context)
             coffeePositions.adapter = coffeePositionsAdapter
 
