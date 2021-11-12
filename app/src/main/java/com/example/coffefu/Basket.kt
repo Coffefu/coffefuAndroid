@@ -1,18 +1,15 @@
 package com.example.coffefu
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coffefu.adapters.CoffeePositionsAdapter
-import com.example.coffefu.dao.OrderDao
 import com.example.coffefu.database.DatabaseControl
 import com.example.coffefu.entities.ProductPosition
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
