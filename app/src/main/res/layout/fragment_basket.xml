@@ -22,14 +22,14 @@
             android:layout_weight="0.95" />
 
         <TextView
-            android:layout_weight="0.025"
-            android:layout_marginTop="10dp"
             android:id="@+id/order_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="10dp"
+            android:layout_weight="0.025"
             android:gravity="center"
             android:text="Итого: 0 руб."
             android:textColor="@color/black"
@@ -42,13 +42,13 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
-            android:layout_weight="0.025"
             android:id="@+id/add_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="75dp"
             android:layout_marginEnd="75dp"
             android:layout_marginBottom="28dp"
+            android:layout_weight="0.025"
             android:background="@drawable/rounded_border"
             android:text="Заказать"
             android:textSize="24sp"

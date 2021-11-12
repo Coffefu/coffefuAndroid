@@ -5,10 +5,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.coffefu.database.DatabaseControl
-import com.example.coffefu.database.OrderDatabase
 import com.example.coffefu.entities.ProductPosition
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 

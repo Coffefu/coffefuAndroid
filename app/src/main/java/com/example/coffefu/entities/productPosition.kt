@@ -1,7 +1,9 @@
 package com.example.coffefu.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
-import androidx.room.*
 
 interface PositionListener {
     fun onPositionClicked(product: ProductPosition, position: Int)
