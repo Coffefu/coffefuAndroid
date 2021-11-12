@@ -16,6 +16,8 @@ import kotlinx.coroutines.withContext
 
 class Basket : Fragment() {
 
+    private lateinit var coffeePositionsAdapter: CoffeePositionsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,12 +35,11 @@ class Basket : Fragment() {
                 productsList = DatabaseControl().getProductsTask(requireContext())
             }
         }
-
-        // TODO override setProduct
-
-//        val coffeePositionsAdapter: CoffeePositionsAdapter =
-//            CoffeePositionsAdapter(productsList, context, mainActivity)
+        coffeePositionsAdapter = CoffeePositionsAdapter(productsList, context, "Basket")
         coffeePositions.layoutManager = LinearLayoutManager(context)
-//        coffeePositions.adapter = coffeePositionsAdapter
+        coffeePositions.adapter = coffeePositionsAdapter
+
     }
+
+
 }

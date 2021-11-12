@@ -14,14 +14,13 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="18dp"
             android:orientation="vertical"
-            android:paddingTop="50dp"
             android:paddingStart="20dp"
+            android:paddingTop="50dp"
             android:paddingEnd="20dp"
             android:saveEnabled="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="18dp" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"

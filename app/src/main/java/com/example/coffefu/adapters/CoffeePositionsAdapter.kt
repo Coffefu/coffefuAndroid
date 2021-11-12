@@ -20,8 +20,9 @@ import kotlinx.coroutines.withContext
 class CoffeePositionsAdapter(
     private var products: List<ProductPosition>,
     private var context: Context?,
-    private var mainActivity: Activity
-) :
+    private var typeOfItems: String,
+    private var mainActivity: Activity = Activity()
+    ) :
     RecyclerView.Adapter<CoffeePositionsAdapter.PositionViewHolder>() {
 
     class PositionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -57,10 +58,24 @@ class CoffeePositionsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PositionViewHolder {
-        return PositionViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.coffee_positions_item, parent, false)
-        )
+        when(typeOfItems) {
+            "Menu" -> {
+                return PositionViewHolder(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.menu_positions_item, parent, false)
+                )
+            }
+            "Basket" -> {
+                return PositionViewHolder(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.basket_positions_item, parent, false)
+                )
+            }
+            else -> return PositionViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.menu_positions_item, parent, false)
+            )
+        }
     }
 
     override fun onBindViewHolder(holder: PositionViewHolder, position: Int) {
