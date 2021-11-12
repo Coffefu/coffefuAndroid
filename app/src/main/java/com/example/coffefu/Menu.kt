@@ -42,7 +42,8 @@ class Menu : Fragment() {
     }
 }
 
-class DemoCollectionAdapter(fragment: Fragment, private var context: Context?) : FragmentStateAdapter(fragment) {
+class DemoCollectionAdapter(fragment: Fragment, private var context: Context?) :
+    FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 1
 
@@ -90,7 +91,8 @@ class DemoObjectFragment(private var mainContext: Context?) : Fragment() {
 
             productsList = ArrayList()
             (productsList as MutableList<ProductPosition>).addAll(coffee)
-            val coffeePositionsAdapter: CoffeePositionsAdapter = CoffeePositionsAdapter(productsList, mainContext)
+            val coffeePositionsAdapter: CoffeePositionsAdapter =
+                CoffeePositionsAdapter(productsList, mainContext)
             coffeePositions.layoutManager = LinearLayoutManager(context)
             coffeePositions.adapter = coffeePositionsAdapter
 

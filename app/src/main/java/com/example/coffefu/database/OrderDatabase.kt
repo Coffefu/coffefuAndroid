@@ -27,6 +27,7 @@ abstract class OrderDatabase : RoomDatabase() {
             }
             return INSTANCE
         }
+
         fun destroyDataBase() {
             INSTANCE = null
         }

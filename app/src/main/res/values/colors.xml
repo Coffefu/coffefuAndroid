@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="activeMenuItem">#4D6276</color>
     <color name="menuItem">#758CA3</color>
+    <color name="turquoise">#00BCD4</color>
 </resources>

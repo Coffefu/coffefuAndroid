@@ -16,7 +16,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-class CoffeePositionsAdapter(private var products: List<ProductPosition>, private var context: Context?) :
+class CoffeePositionsAdapter(
+    private var products: List<ProductPosition>,
+    private var context: Context?
+) :
     RecyclerView.Adapter<CoffeePositionsAdapter.PositionViewHolder>() {
 
     class PositionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -39,7 +42,10 @@ class CoffeePositionsAdapter(private var products: List<ProductPosition>, privat
                 } else {
                     runBlocking {
                         withContext(Dispatchers.IO) {
-                            DatabaseControl().deleteProductTask(context!!, coffeeName?.text.toString())
+                            DatabaseControl().deleteProductTask(
+                                context!!,
+                                coffeeName?.text.toString()
+                            )
                         }
                     }
 
@@ -50,7 +56,8 @@ class CoffeePositionsAdapter(private var products: List<ProductPosition>, privat
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PositionViewHolder {
         return PositionViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.coffee_positions_item, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.coffee_positions_item, parent, false)
         )
     }
 

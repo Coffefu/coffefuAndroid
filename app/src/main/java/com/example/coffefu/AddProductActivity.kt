@@ -45,13 +45,15 @@ class AddProductActivity : AppCompatActivity() {
 
         minusButton.setOnClickListener {
             if (productCountTextView.text.toString().toInt() > 0) {
-                productCountTextView.text = (productCountTextView.text.toString().toInt() - 1).toString()
+                productCountTextView.text =
+                    (productCountTextView.text.toString().toInt() - 1).toString()
             }
             updateOrderPrice()
         }
 
         plusButton.setOnClickListener {
-            productCountTextView.text = (productCountTextView.text.toString().toInt() + 1).toString()
+            productCountTextView.text =
+                (productCountTextView.text.toString().toInt() + 1).toString()
             updateOrderPrice()
         }
 

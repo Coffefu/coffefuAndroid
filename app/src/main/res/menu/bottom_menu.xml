@@ -10,10 +10,10 @@
         android:id="@+id/basket"
         android:enabled="true"
         android:icon="@drawable/basket"
-        android:title="КОРЗИНА"/>
+        android:title="КОРЗИНА" />
     <item
         android:id="@+id/feedback"
         android:enabled="true"
         android:icon="@drawable/feedback"
-        android:title="ОТЗЫВ"/>
+        android:title="ОТЗЫВ" />
 </menu>
