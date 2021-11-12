@@ -8,11 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coffefu.adapters.CoffeePositionsAdapter
-import com.example.coffefu.dao.OrderDao
 import com.example.coffefu.database.DatabaseControl
 import com.example.coffefu.entities.ProductPosition
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -39,9 +36,9 @@ class Basket : Fragment() {
 
         // TODO override setProduct
 
-        val coffeePositionsAdapter: CoffeePositionsAdapter =
-            CoffeePositionsAdapter(productsList, context)
+//        val coffeePositionsAdapter: CoffeePositionsAdapter =
+//            CoffeePositionsAdapter(productsList, context, mainActivity)
         coffeePositions.layoutManager = LinearLayoutManager(context)
-        coffeePositions.adapter = coffeePositionsAdapter
+//        coffeePositions.adapter = coffeePositionsAdapter
     }
 }

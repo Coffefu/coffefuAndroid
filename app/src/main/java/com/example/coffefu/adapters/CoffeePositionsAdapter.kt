@@ -1,5 +1,6 @@
 package com.example.coffefu.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -18,7 +19,8 @@ import kotlinx.coroutines.withContext
 
 class CoffeePositionsAdapter(
     private var products: List<ProductPosition>,
-    private var context: Context?
+    private var context: Context?,
+    private var mainActivity: Activity
 ) :
     RecyclerView.Adapter<CoffeePositionsAdapter.PositionViewHolder>() {
 
@@ -27,7 +29,7 @@ class CoffeePositionsAdapter(
         private val coffeePrice: TextView? = itemView.findViewById(R.id.coffee_price)
         private val coffeeAdd: ToggleButton? = itemView.findViewById(R.id.coffee_add)
 
-        fun setProduct(product: ProductPosition, context: Context?) {
+        fun setProduct(product: ProductPosition, context: Context?, activity: Activity) {
             coffeeName?.text = product.getName()
             coffeePrice?.text = product.getStringPrice()
 
@@ -38,7 +40,7 @@ class CoffeePositionsAdapter(
                     val intent = Intent(context, AddProductActivity::class.java)
                     intent.putExtra("name", coffeeName?.text)
                     intent.putExtra("price", product.getPrice())
-                    context?.startActivity(intent)
+                    activity.startActivityForResult(intent, 1)
                 } else {
                     runBlocking {
                         withContext(Dispatchers.IO) {
@@ -62,7 +64,7 @@ class CoffeePositionsAdapter(
     }
 
     override fun onBindViewHolder(holder: PositionViewHolder, position: Int) {
-        holder.setProduct(products[position], context)
+        holder.setProduct(products[position], context, mainActivity)
     }
 
     override fun getItemCount(): Int {

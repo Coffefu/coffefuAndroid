@@ -1,5 +1,6 @@
 package com.example.coffefu
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -17,9 +18,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 val tabNames = arrayOf("Кофе", "Не кофе")
 
-class Menu : Fragment() {
-
-    private lateinit var menuAdapter: DemoCollectionAdapter
+class Menu(private var mainActivity: Activity) : Fragment() {
+    private lateinit var menuAdapter: CollectionAdapter
     private lateinit var viewPager: ViewPager2
 
     override fun onCreateView(
@@ -31,7 +31,7 @@ class Menu : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        menuAdapter = DemoCollectionAdapter(this, context)
+        menuAdapter = CollectionAdapter(this, context, mainActivity)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = menuAdapter
 
@@ -42,14 +42,14 @@ class Menu : Fragment() {
     }
 }
 
-class DemoCollectionAdapter(fragment: Fragment, private var context: Context?) :
+class CollectionAdapter(fragment: Fragment, private var context: Context?, private var mainActivity: Activity) :
     FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 1
 
     override fun createFragment(position: Int): Fragment {
         // Return a NEW fragment instance in createFragment(int)
-        val fragment = DemoObjectFragment(context)
+        val fragment = FragmentFactory(context, mainActivity)
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
             putInt(ARG_OBJECT, position + 1)
@@ -60,7 +60,7 @@ class DemoCollectionAdapter(fragment: Fragment, private var context: Context?) :
 
 private const val ARG_OBJECT = "object"
 
-class DemoObjectFragment(private var mainContext: Context?) : Fragment() {
+class FragmentFactory(private var mainContext: Context?, private var mainActivity: Activity) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,8 +91,7 @@ class DemoObjectFragment(private var mainContext: Context?) : Fragment() {
 
             productsList = ArrayList()
             (productsList as MutableList<ProductPosition>).addAll(coffee)
-            val coffeePositionsAdapter: CoffeePositionsAdapter =
-                CoffeePositionsAdapter(productsList, mainContext)
+            val coffeePositionsAdapter = CoffeePositionsAdapter(productsList, mainContext, mainActivity)
             coffeePositions.layoutManager = LinearLayoutManager(context)
             coffeePositions.adapter = coffeePositionsAdapter
 
