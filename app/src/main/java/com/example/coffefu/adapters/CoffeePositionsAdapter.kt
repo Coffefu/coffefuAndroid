@@ -3,13 +3,11 @@ package com.example.coffefu.adapters
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coffefu.*
 import com.example.coffefu.database.DatabaseControl
@@ -25,7 +23,7 @@ class CoffeePositionsAdapter(
     private var typeOfItems: String,
     private var coffeePositionsListener: CoffeePositionsListener,
     private var mainActivity: Activity = Activity(),
-    ) :
+) :
     RecyclerView.Adapter<CoffeePositionsAdapter.PositionViewHolder>() {
 
     class PositionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -48,17 +46,28 @@ class CoffeePositionsAdapter(
             }
         }
 
-        fun setBasketProduct(product: ProductPosition, context: Context?, activity: Activity, coffeePositionsListener: CoffeePositionsListener) {
+        fun setBasketProduct(
+            product: ProductPosition,
+            context: Context?,
+            activity: Activity,
+            coffeePositionsListener: CoffeePositionsListener,
+            position: Int
+        ) {
             coffeeName?.text = product.getName()
             coffeePrice?.text = product.getStringPrice()
             coffeeDelete?.setOnClickListener {
-                coffeePositionsListener.onClick(coffeeDelete, 0)
+                runBlocking {
+                    withContext(Dispatchers.IO) {
+                        DatabaseControl().deleteProductTask(context!!, coffeeName?.text.toString())
+                    }
+                }
+                coffeePositionsListener.onClick(coffeeDelete, position)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PositionViewHolder {
-        when(typeOfItems) {
+        when (typeOfItems) {
             "Menu" -> {
                 return PositionViewHolder(
                     LayoutInflater.from(parent.context)
@@ -79,9 +88,15 @@ class CoffeePositionsAdapter(
     }
 
     override fun onBindViewHolder(holder: PositionViewHolder, position: Int) {
-        when(typeOfItems) {
+        when (typeOfItems) {
             "Menu" -> holder.setMenuProduct(products[position], context, mainActivity)
-            "Basket" -> holder.setBasketProduct(products[position], context, mainActivity, coffeePositionsListener)
+            "Basket" -> holder.setBasketProduct(
+                products[position],
+                context,
+                mainActivity,
+                coffeePositionsListener,
+                position
+            )
         }
     }
 
