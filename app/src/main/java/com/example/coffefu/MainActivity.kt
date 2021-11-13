@@ -15,12 +15,20 @@ class MainActivity : AppCompatActivity() {
 
     private var active: Fragment = menu
 
+    fun updateBasket() {
+        supportFragmentManager.beginTransaction().hide(active).show(basket)
+            .commit()
+        active = basket
+        // refresh basket to load new products
+        active = supportFragmentManager.findFragmentByTag("basket")!!
+        supportFragmentManager.beginTransaction().detach(active).commit()
+        supportFragmentManager.beginTransaction().attach(active).commit()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // TODO дописать логику фрагементов
-        // https://newbedev.com/stop-fragment-refresh-in-bottom-nav-using-navhost
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.navigation_bar)
 
         supportFragmentManager.beginTransaction().add(R.id.flFragment, menu, "menu").commit()
