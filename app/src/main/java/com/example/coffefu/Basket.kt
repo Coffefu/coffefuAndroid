@@ -12,6 +12,7 @@ import com.example.coffefu.adapters.CoffeePositionsAdapter
 import com.example.coffefu.database.DatabaseControl
 import com.example.coffefu.entities.ProductPosition
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlin.reflect.typeOf
@@ -21,11 +22,8 @@ interface CoffeePositionsListener {
 }
 
 class Basket : Fragment(), CoffeePositionsListener {
-
-
-
-
     private lateinit var coffeePositionsAdapter: CoffeePositionsAdapter
+    private lateinit var productsList: List<ProductPosition>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +35,6 @@ class Basket : Fragment(), CoffeePositionsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val coffeePositions = view.findViewById<RecyclerView>(R.id.coffeePositions)
-        val productsList: List<ProductPosition>
 
         runBlocking {
             withContext(Dispatchers.IO) {
@@ -48,10 +45,14 @@ class Basket : Fragment(), CoffeePositionsListener {
         coffeePositions.layoutManager = LinearLayoutManager(context)
         coffeePositions.adapter = coffeePositionsAdapter
 
-
     }
 
     override fun onClick(view: View?, position: Int) {
-        coffeePositionsAdapter.notifyDataSetChanged()
+         runBlocking {
+            withContext(Dispatchers.IO) {
+                productsList = DatabaseControl().getSumCounts(requireContext())
+            }
+        }
+        coffeePositionsAdapter.notifyItemRemoved(position)
     }
 }
