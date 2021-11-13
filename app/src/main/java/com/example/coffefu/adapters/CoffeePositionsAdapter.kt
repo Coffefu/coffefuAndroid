@@ -61,7 +61,7 @@ class CoffeePositionsAdapter(
                         DatabaseControl().deleteProductTask(context!!, coffeeName?.text.toString())
                     }
                 }
-                coffeePositionsListener.onClick(coffeeDelete, position)
+                coffeePositionsListener.updateRecycleView()
             }
         }
     }

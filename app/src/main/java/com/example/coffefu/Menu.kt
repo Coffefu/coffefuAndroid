@@ -41,12 +41,17 @@ class Menu(private var mainActivity: Activity) : Fragment(), CoffeePositionsList
         }.attach()
     }
 
-    override fun onClick(view: View?, position: Int) {
-        TODO("Not yet implemented")
+    override fun updateRecycleView() {
+//        TODO("Not yet implemented")
     }
 }
 
-class CollectionAdapter(fragment: Fragment, private var context: Context?, private var mainActivity: Activity,private var coffeePositionsListener: CoffeePositionsListener) :
+class CollectionAdapter(
+    fragment: Fragment,
+    private var context: Context?,
+    private var mainActivity: Activity,
+    private var coffeePositionsListener: CoffeePositionsListener
+) :
     FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 1
@@ -98,7 +103,13 @@ class FragmentFactory(
 
             productsList = ArrayList()
             (productsList as MutableList<ProductPosition>).addAll(coffee)
-            val coffeePositionsAdapter = CoffeePositionsAdapter(productsList, mainContext, "Menu", coffeePositionsListener, mainActivity)
+            val coffeePositionsAdapter = CoffeePositionsAdapter(
+                productsList,
+                mainContext,
+                "Menu",
+                coffeePositionsListener,
+                mainActivity
+            )
             coffeePositions.layoutManager = LinearLayoutManager(context)
             coffeePositions.adapter = coffeePositionsAdapter
 
