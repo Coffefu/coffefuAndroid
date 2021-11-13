@@ -15,6 +15,16 @@ class MainActivity : AppCompatActivity() {
 
     private var active: Fragment = menu
 
+    fun updateBasket() {
+        supportFragmentManager.beginTransaction().hide(active).show(basket)
+            .commit()
+        active = basket
+        // refresh basket to load new products
+        active = supportFragmentManager.findFragmentByTag("basket")!!
+        supportFragmentManager.beginTransaction().detach(active).commit()
+        supportFragmentManager.beginTransaction().attach(active).commit()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

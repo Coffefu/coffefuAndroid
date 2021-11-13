@@ -1,15 +1,18 @@
 package com.example.coffefu
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coffefu.adapters.CoffeePositionsAdapter
 import com.example.coffefu.database.DatabaseControl
 import com.example.coffefu.entities.ProductPosition
+import com.google.android.material.badge.BadgeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -29,17 +32,21 @@ class Basket : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val coffeePositions = view.findViewById<RecyclerView>(R.id.coffeePositions)
         val productsList: List<ProductPosition>
+        val deleteButtons = view.findViewById<Button?>(R.id.delete_product)
+
+        coffeePositions.setOnClickListener {
+            Log.e("buttons", deleteButtons.toString())
+        }
 
         runBlocking {
             withContext(Dispatchers.IO) {
-                productsList = DatabaseControl().getProductsTask(requireContext())
+                productsList = DatabaseControl().getSumCounts(requireContext())
             }
         }
         coffeePositionsAdapter = CoffeePositionsAdapter(productsList, context, "Basket")
         coffeePositions.layoutManager = LinearLayoutManager(context)
         coffeePositions.adapter = coffeePositionsAdapter
 
+
     }
-
-
 }

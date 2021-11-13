@@ -18,6 +18,14 @@ class DatabaseControl {
         }
     }
 
+    suspend fun getSumCounts(applicationContext: Context): List<ProductPosition> {
+        val tmp: List<ProductPosition>
+         withContext(Dispatchers.IO) {
+             tmp = OrderDatabase.getAppDataBase(applicationContext)?.orderDao()?.sumCounts()!!
+         }
+        return tmp
+    }
+
     suspend fun getProductsTask(applicationContext: Context): List<ProductPosition> {
         val tmp: List<ProductPosition>
         withContext(Dispatchers.IO) {
