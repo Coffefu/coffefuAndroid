@@ -1,7 +1,6 @@
 package com.example.coffefu
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,18 +11,17 @@ import com.example.coffefu.adapters.CoffeePositionsAdapter
 import com.example.coffefu.database.DatabaseControl
 import com.example.coffefu.entities.ProductPosition
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import kotlin.reflect.typeOf
 
 interface CoffeePositionsListener {
-    fun onClick(view: View?, position: Int)
+    fun updateRecycleView()
 }
 
 class Basket : Fragment(), CoffeePositionsListener {
     private lateinit var coffeePositionsAdapter: CoffeePositionsAdapter
     private lateinit var productsList: List<ProductPosition>
+    private lateinit var coffeePositions: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +32,11 @@ class Basket : Fragment(), CoffeePositionsListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val coffeePositions = view.findViewById<RecyclerView>(R.id.coffeePositions)
+        coffeePositions = view.findViewById(R.id.coffeePositions)
+        updateRecycleView()
+    }
 
+    override fun updateRecycleView() {
         runBlocking {
             withContext(Dispatchers.IO) {
                 productsList = DatabaseControl().getSumCounts(requireContext())
@@ -44,15 +45,5 @@ class Basket : Fragment(), CoffeePositionsListener {
         coffeePositionsAdapter = CoffeePositionsAdapter(productsList, context, "Basket", this)
         coffeePositions.layoutManager = LinearLayoutManager(context)
         coffeePositions.adapter = coffeePositionsAdapter
-
-    }
-
-    override fun onClick(view: View?, position: Int) {
-         runBlocking {
-            withContext(Dispatchers.IO) {
-                productsList = DatabaseControl().getSumCounts(requireContext())
-            }
-        }
-        coffeePositionsAdapter.notifyItemRemoved(position)
     }
 }
