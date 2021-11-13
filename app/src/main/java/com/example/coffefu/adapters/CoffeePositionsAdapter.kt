@@ -3,6 +3,7 @@ package com.example.coffefu.adapters
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,26 +11,22 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
-import com.example.coffefu.AddProductActivity
-import com.example.coffefu.MainActivity
-import com.example.coffefu.R
+import com.example.coffefu.*
 import com.example.coffefu.database.DatabaseControl
 import com.example.coffefu.entities.ProductPosition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
+
 class CoffeePositionsAdapter(
     private var products: List<ProductPosition>,
     private var context: Context?,
     private var typeOfItems: String,
+    private var coffeePositionsListener: CoffeePositionsListener,
     private var mainActivity: Activity = Activity(),
     ) :
     RecyclerView.Adapter<CoffeePositionsAdapter.PositionViewHolder>() {
-
-    fun setItems() {
-        notifyDataSetChanged()
-    }
 
     class PositionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val coffeeName: TextView? = itemView.findViewById(R.id.coffee_name)
@@ -51,16 +48,11 @@ class CoffeePositionsAdapter(
             }
         }
 
-        fun setBasketProduct(product: ProductPosition, context: Context?, activity: Activity) {
+        fun setBasketProduct(product: ProductPosition, context: Context?, activity: Activity, coffeePositionsListener: CoffeePositionsListener) {
             coffeeName?.text = product.getName()
             coffeePrice?.text = product.getStringPrice()
             coffeeDelete?.setOnClickListener {
-                runBlocking {
-                    withContext(Dispatchers.IO) {
-                        DatabaseControl().deleteProductTask(context!!, coffeeName?.text.toString())
-                    }
-
-                }
+                coffeePositionsListener.onClick(coffeeDelete, 0)
             }
         }
     }
@@ -89,7 +81,7 @@ class CoffeePositionsAdapter(
     override fun onBindViewHolder(holder: PositionViewHolder, position: Int) {
         when(typeOfItems) {
             "Menu" -> holder.setMenuProduct(products[position], context, mainActivity)
-            "Basket" -> holder.setBasketProduct(products[position], context, mainActivity)
+            "Basket" -> holder.setBasketProduct(products[position], context, mainActivity, coffeePositionsListener)
         }
     }
 

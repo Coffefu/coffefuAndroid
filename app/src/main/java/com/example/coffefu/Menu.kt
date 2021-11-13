@@ -18,7 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 val tabNames = arrayOf("Кофе", "Не кофе")
 
-class Menu(private var mainActivity: Activity) : Fragment() {
+class Menu(private var mainActivity: Activity) : Fragment(), CoffeePositionsListener {
     private lateinit var menuAdapter: CollectionAdapter
     private lateinit var viewPager: ViewPager2
 
@@ -31,7 +31,7 @@ class Menu(private var mainActivity: Activity) : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        menuAdapter = CollectionAdapter(this, context, mainActivity)
+        menuAdapter = CollectionAdapter(this, context, mainActivity, this)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = menuAdapter
 
@@ -40,16 +40,20 @@ class Menu(private var mainActivity: Activity) : Fragment() {
             tab.text = tabNames[position]
         }.attach()
     }
+
+    override fun onClick(view: View?, position: Int) {
+        TODO("Not yet implemented")
+    }
 }
 
-class CollectionAdapter(fragment: Fragment, private var context: Context?, private var mainActivity: Activity) :
+class CollectionAdapter(fragment: Fragment, private var context: Context?, private var mainActivity: Activity,private var coffeePositionsListener: CoffeePositionsListener) :
     FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 1
 
     override fun createFragment(position: Int): Fragment {
         // Return a NEW fragment instance in createFragment(int)
-        val fragment = FragmentFactory(context, mainActivity)
+        val fragment = FragmentFactory(context, mainActivity, coffeePositionsListener)
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
             putInt(ARG_OBJECT, position + 1)
@@ -60,7 +64,11 @@ class CollectionAdapter(fragment: Fragment, private var context: Context?, priva
 
 private const val ARG_OBJECT = "object"
 
-class FragmentFactory(private var mainContext: Context?, private var mainActivity: Activity) : Fragment() {
+class FragmentFactory(
+    private var mainContext: Context?,
+    private var mainActivity: Activity,
+    private var coffeePositionsListener: CoffeePositionsListener
+) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,7 +98,7 @@ class FragmentFactory(private var mainContext: Context?, private var mainActivit
 
             productsList = ArrayList()
             (productsList as MutableList<ProductPosition>).addAll(coffee)
-            val coffeePositionsAdapter = CoffeePositionsAdapter(productsList, mainContext, "Menu", mainActivity)
+            val coffeePositionsAdapter = CoffeePositionsAdapter(productsList, mainContext, "Menu", coffeePositionsListener, mainActivity)
             coffeePositions.layoutManager = LinearLayoutManager(context)
             coffeePositions.adapter = coffeePositionsAdapter
 
