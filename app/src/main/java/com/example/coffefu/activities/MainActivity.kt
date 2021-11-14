@@ -1,8 +1,12 @@
-package com.example.coffefu
+package com.example.coffefu.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.coffefu.fragments.Basket
+import com.example.coffefu.fragments.Menu
+import com.example.coffefu.R
+import com.example.coffefu.fragments.Feedback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

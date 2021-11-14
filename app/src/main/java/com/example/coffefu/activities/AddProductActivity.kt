@@ -1,9 +1,10 @@
-package com.example.coffefu
+package com.example.coffefu.activities
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.coffefu.R
 import com.example.coffefu.database.DatabaseControl
 import com.example.coffefu.entities.ProductPosition
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,7 @@ class AddProductActivity : AppCompatActivity() {
         val productNameTextView = findViewById<TextView>(R.id.product_name)
         val orderPriceTextView = findViewById<TextView>(R.id.order_price)
 
-        var product = ProductPosition()
+        var product: ProductPosition
         val productPrice = intent.getIntExtra("price", 0)
         val productName = intent.getStringExtra("name")
 
@@ -42,7 +43,7 @@ class AddProductActivity : AppCompatActivity() {
         }
 
         minusButton.setOnClickListener {
-            if (productCountTextView.text.toString().toInt() > 0) {
+            if (productCountTextView.text.toString().toInt() > 1) {
                 productCountTextView.text =
                     (productCountTextView.text.toString().toInt() - 1).toString()
             }
@@ -55,7 +56,6 @@ class AddProductActivity : AppCompatActivity() {
             updateOrderPrice()
         }
 
-        // TODO не давать заказать 0
         finalAddButton.setOnClickListener {
             product = ProductPosition()
             product.setName(intent.getStringExtra("name")!!)

@@ -1,4 +1,4 @@
-package com.example.coffefu
+package com.example.coffefu.fragments
 
 import android.app.Activity
 import android.content.Context
@@ -11,14 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.coffefu.adapters.CoffeePositionsAdapter
+import com.example.coffefu.R
+import com.example.coffefu.adapters.ProductsRecyclerAdapter
 import com.example.coffefu.entities.ProductPosition
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 val tabNames = arrayOf("Кофе", "Не кофе")
 
-class Menu(private var mainActivity: Activity) : Fragment(), CoffeePositionsListener {
+class Menu(private var mainActivity: Activity) : Fragment(), ProductRecyclerListener {
     private lateinit var menuAdapter: CollectionAdapter
     private lateinit var viewPager: ViewPager2
 
@@ -41,16 +42,14 @@ class Menu(private var mainActivity: Activity) : Fragment(), CoffeePositionsList
         }.attach()
     }
 
-    override fun updateRecycleView() {
-//        TODO("Not yet implemented")
-    }
+    override fun updateRecycleView() {}
 }
 
 class CollectionAdapter(
     fragment: Fragment,
     private var context: Context?,
     private var mainActivity: Activity,
-    private var coffeePositionsListener: CoffeePositionsListener
+    private var productRecyclerListener: ProductRecyclerListener
 ) :
     FragmentStateAdapter(fragment) {
 
@@ -58,7 +57,7 @@ class CollectionAdapter(
 
     override fun createFragment(position: Int): Fragment {
         // Return a NEW fragment instance in createFragment(int)
-        val fragment = FragmentFactory(context, mainActivity, coffeePositionsListener)
+        val fragment = FragmentFactory(context, mainActivity, productRecyclerListener)
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
             putInt(ARG_OBJECT, position + 1)
@@ -72,7 +71,7 @@ private const val ARG_OBJECT = "object"
 class FragmentFactory(
     private var mainContext: Context?,
     private var mainActivity: Activity,
-    private var coffeePositionsListener: CoffeePositionsListener
+    private var productRecyclerListener: ProductRecyclerListener
 ) : Fragment() {
 
     override fun onCreateView(
@@ -103,11 +102,11 @@ class FragmentFactory(
 
             productsList = ArrayList()
             (productsList as MutableList<ProductPosition>).addAll(coffee)
-            val coffeePositionsAdapter = CoffeePositionsAdapter(
+            val coffeePositionsAdapter = ProductsRecyclerAdapter(
                 productsList,
                 mainContext,
                 "Menu",
-                coffeePositionsListener,
+                productRecyclerListener,
                 mainActivity
             )
             coffeePositions.layoutManager = LinearLayoutManager(context)

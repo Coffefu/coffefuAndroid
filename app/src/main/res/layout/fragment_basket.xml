@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Basket">
+    tools:context=".fragments.Basket">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,14 +21,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            android:paddingBottom="100dp"/>
+            android:paddingBottom="115dp"/>
 
         <TextView
             android:id="@+id/order_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Итого: 0 руб."
             android:textColor="@color/black"

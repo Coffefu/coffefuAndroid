@@ -7,37 +7,67 @@
     android:orientation="horizontal"
     android:padding="15dp">
 
-    <TextView
-        android:id="@+id/coffee_name"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Coffee"
-        android:padding="3dp"
-        android:textSize="20sp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/coffee_price"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/delete_product"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        android:text="180 руб."
-        android:padding="3dp"
-        android:textSize="20sp"
-        android:textColor="@color/black" />
-
-    <Button
-        android:id="@+id/delete_product"
-        android:background="@drawable/ic_remove_btn"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/coffee_name"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Coffee"
+            android:padding="3dp"
+            android:textSize="20sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/coffee_count"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/coffee_price"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="2 x"
+            android:padding="3dp"
+            android:textSize="20sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/coffee_price"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/delete_product"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:text="180 руб."
+            android:padding="3dp"
+            android:textSize="20sp"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/delete_product"
+            android:background="@drawable/ic_remove_btn"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
