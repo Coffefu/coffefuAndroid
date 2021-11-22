@@ -89,10 +89,10 @@ class FragmentFactory(
             val productsList: List<ProductPosition>
 
             // TODO make data as json or maybe store in database!!!
-            val coffeeNames = arrayOf("Раф", "Латте", "Американо", "Капучино", "Мокко")
-            val coffeePrices = arrayOf(180, 120, 100, 150, 200)
+            val coffeeNames = arrayOf("Раф", "Латте", "Американо", "Капучино", "Мокко", "Раф ванильный", "Раф бананновый", "Горячий шоколад", "Эспрессо")
+            val coffeePrices = arrayOf(180, 120, 100, 150, 200, 180, 165, 220, 90)
             val coffee = mutableListOf<ProductPosition>()
-            for (i in 0..4) {
+            for (i in 0..8) {
                 val tmpCoffee = ProductPosition()
                 tmpCoffee.setId(i)
                 tmpCoffee.setName(coffeeNames[i])

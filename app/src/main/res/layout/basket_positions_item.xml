@@ -37,7 +37,7 @@
             android:layout_marginTop="10dp"
             android:text="2 x"
             android:padding="3dp"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@color/black" />
 
         <TextView
@@ -50,7 +50,7 @@
             android:layout_marginTop="10dp"
             android:text="180 руб."
             android:padding="3dp"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@color/black" />
 
         <Button

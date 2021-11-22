@@ -22,7 +22,6 @@ class AddProductActivity : AppCompatActivity() {
         val plusButton = findViewById<Button>(R.id.plus_count)
         val finalAddButton = findViewById<Button>(R.id.add_btn)
         val productNameTextView = findViewById<TextView>(R.id.product_name)
-        val orderPriceTextView = findViewById<TextView>(R.id.order_price)
 
         var product: ProductPosition
         val productPrice = intent.getIntExtra("price", 0)
@@ -31,15 +30,9 @@ class AddProductActivity : AppCompatActivity() {
 
         // init layout
         productNameTextView.text = productName
-        orderPriceTextView.text = "Итого: $productPrice руб."
 
         backButton.setOnClickListener {
             finish()
-        }
-
-        fun updateOrderPrice() {
-            val tmp = productPrice * productCountTextView.text.toString().toInt()
-            orderPriceTextView.text = "Итого: $tmp руб."
         }
 
         minusButton.setOnClickListener {
@@ -47,13 +40,11 @@ class AddProductActivity : AppCompatActivity() {
                 productCountTextView.text =
                     (productCountTextView.text.toString().toInt() - 1).toString()
             }
-            updateOrderPrice()
         }
 
         plusButton.setOnClickListener {
             productCountTextView.text =
                 (productCountTextView.text.toString().toInt() + 1).toString()
-            updateOrderPrice()
         }
 
         finalAddButton.setOnClickListener {
