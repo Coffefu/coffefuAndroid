@@ -82,7 +82,14 @@ class Basket : Fragment(), ProductRecyclerListener {
         orderButton.setOnClickListener {
 
             if (picked) {
-                val client = HttpClient()
+                val client = HttpClient() {
+                    install(JsonFeature) {
+                        serializer = GsonSerializer() {
+                            setPrettyPrinting()
+                            disableHtmlEscaping()
+                        }
+                    }
+                }
                 val response: HttpResponse
                 val date = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
                 runBlocking {
@@ -100,9 +107,9 @@ class Basket : Fragment(), ProductRecyclerListener {
                                 contentType(ContentType.Application.Json)
                                 body = Order("1", oderContentString, date.toString())
                             }
-                            Log.e("data", response.toString())
+                            Log.e("data", response.readText())
                         } catch (e: RequestException) {
-                            Log.e("respond", e.toString())
+                            Log.e("error", e.toString())
                         }
                     }
                 }
