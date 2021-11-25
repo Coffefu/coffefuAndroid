@@ -107,7 +107,9 @@ class Basket : Fragment(), ProductRecyclerListener {
                                 contentType(ContentType.Application.Json)
                                 body = Order("1", oderContentString, date.toString())
                             }
-                            Log.e("data", response.readText())
+                            if (response.readText() == "WrongTime") {
+                                Toast.makeText(requireContext(), "Минимальное время выполения заказа 5 мнинут.", Toast.LENGTH_SHORT).show()
+                            } else { }
                         } catch (e: RequestException) {
                             Log.e("error", e.toString())
                         }
