@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +36,8 @@ import java.util.*
 interface ProductRecyclerListener {
     fun updateRecycleView()
 }
+
+class RequestException: Exception() {}
 
 data class Order(val coffee_house_id: String, val order_content: String, val time: String)
 
@@ -63,6 +66,7 @@ class Basket : Fragment(), ProductRecyclerListener {
         orderPrice = view.findViewById(R.id.order_price)
         orderButton = view.findViewById(R.id.order_btn)
         timeButton = view.findViewById(R.id.time_btn)
+        var picked = false
 
         val cal = Calendar.getInstance()
         timeButton.setOnClickListener {
@@ -70,42 +74,40 @@ class Basket : Fragment(), ProductRecyclerListener {
                 cal.set(Calendar.HOUR_OF_DAY, hour)
                 cal.set(Calendar.MINUTE, minute)
                 timeButton.text = SimpleDateFormat("HH:mm").format(cal.time)
+                picked = true
             }
             TimePickerDialog(context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
         }
 
         orderButton.setOnClickListener {
 
-            val client = HttpClient() {
-                install(JsonFeature) {
-                    serializer = GsonSerializer() {
-                        setPrettyPrinting()
-                        disableHtmlEscaping()
-                    }
-                }
-            }
-
-            val response: HttpResponse
-            val date = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
-            runBlocking {
-                withContext(Dispatchers.IO) {
-                    val orderContent = DatabaseControl().getProductsTask(requireContext())
-                    var oderContentString = ""
-                    var sum = 0
-                    for (product in orderContent) {
-                        oderContentString += "${product.getName()} ${product.getCount()}x \n"
-                        sum += product.getPrice() * product.getCount()
-                    }
-                    oderContentString += "Сумма заказа - $sum руб."
-                    try {
-                        response = client.post("https://coffefubot.herokuapp.com") {
-                            contentType(ContentType.Application.Json)
-                            body = Order("1234", oderContentString, date.toString())
+            if (picked) {
+                val client = HttpClient()
+                val response: HttpResponse
+                val date = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                runBlocking {
+                    withContext(Dispatchers.IO) {
+                        val orderContent = DatabaseControl().getProductsTask(requireContext())
+                        var oderContentString = ""
+                        var sum = 0
+                        for (product in orderContent) {
+                            oderContentString += "${product.getName()} ${product.getCount()}x \n"
+                            sum += product.getPrice() * product.getCount()
                         }
-                    } catch (e: MissingResourceException) {
-
+                        oderContentString += "Сумма заказа - $sum руб."
+                        try {
+                            response = client.post("https://coffefubot.herokuapp.com") {
+                                contentType(ContentType.Application.Json)
+                                body = Order("1", oderContentString, date.toString())
+                            }
+                            Log.e("data", response.toString())
+                        } catch (e: RequestException) {
+                            Log.e("respond", e.toString())
+                        }
                     }
                 }
+            } else {
+                Toast.makeText(requireContext(), "Пожалуйста, выберите время", Toast.LENGTH_SHORT).show()
             }
         }
 
