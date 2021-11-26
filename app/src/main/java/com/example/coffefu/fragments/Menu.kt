@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,7 @@ import com.example.coffefu.entities.ProductPosition
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-val tabNames = arrayOf("Кофе", "Не кофе")
+val tabNames = arrayOf("Кофе", "Чай", "Еда")
 
 class Menu(private var mainActivity: Activity) : Fragment(), ProductRecyclerListener {
     private lateinit var menuAdapter: CollectionAdapter
@@ -53,11 +54,11 @@ class CollectionAdapter(
 ) :
     FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = 1
+    override fun getItemCount(): Int = tabNames.size
 
     override fun createFragment(position: Int): Fragment {
         // Return a NEW fragment instance in createFragment(int)
-        val fragment = FragmentFactory(context, mainActivity, productRecyclerListener)
+        val fragment = FragmentFactory(context, mainActivity, productRecyclerListener, position)
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
             putInt(ARG_OBJECT, position + 1)
@@ -71,7 +72,8 @@ private const val ARG_OBJECT = "object"
 class FragmentFactory(
     private var mainContext: Context?,
     private var mainActivity: Activity,
-    private var productRecyclerListener: ProductRecyclerListener
+    private var productRecyclerListener: ProductRecyclerListener,
+    private var position: Int
 ) : Fragment() {
 
     override fun onCreateView(
@@ -88,15 +90,31 @@ class FragmentFactory(
             val coffeePositions = view.findViewById<RecyclerView>(R.id.coffeePositions)
             val productsList: List<ProductPosition>
 
+            var productNames = arrayOf("")
+            var productsPrices = arrayOf(0)
+
             // TODO make data as json or maybe store in database!!!
-            val coffeeNames = arrayOf("Раф", "Латте", "Американо", "Капучино", "Мокко", "Раф ванильный", "Раф бананновый", "Горячий шоколад", "Эспрессо")
-            val coffeePrices = arrayOf(180, 120, 100, 150, 200, 180, 165, 220, 90)
+            when(position) {
+                0 -> {
+                    productNames = arrayOf("Раф", "Латте", "Американо", "Капучино", "Мокко", "Тестовое очень длинное название", "Раф бананновый", "Горячий шоколад", "Эспрессо")
+                    productsPrices = arrayOf(180, 120, 100, 150, 200, 180, 165, 220, 90)
+                }
+                1 -> {
+                    productNames = arrayOf("Мятный чай", "Черный чай")
+                    productsPrices = arrayOf(120, 100)
+                }
+                2 -> {
+                    coffeePositions.updatePadding(bottom = 80)
+                    productNames = arrayOf("Сэндвич с курицей", "Пирожное")
+                    productsPrices = arrayOf(140, 160)
+                }
+            }
             val coffee = mutableListOf<ProductPosition>()
-            for (i in 0..8) {
+            for (i in productNames.indices) {
                 val tmpCoffee = ProductPosition()
                 tmpCoffee.setId(i)
-                tmpCoffee.setName(coffeeNames[i])
-                tmpCoffee.setPrice(coffeePrices[i])
+                tmpCoffee.setName(productNames[i])
+                tmpCoffee.setPrice(productsPrices[i])
                 coffee.add(tmpCoffee)
             }
 
@@ -107,7 +125,8 @@ class FragmentFactory(
                 mainContext,
                 "Menu",
                 productRecyclerListener,
-                mainActivity
+                mainActivity,
+                tabNames[position]
             )
             coffeePositions.layoutManager = LinearLayoutManager(context)
             coffeePositions.adapter = coffeePositionsAdapter

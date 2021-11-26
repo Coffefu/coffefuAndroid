@@ -23,7 +23,10 @@
         <entry key="..\:/Users/karim/coffefuAndroid/app/app/src/main/res/menu/bottom_menu.xml" value="0.3625" />
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/add_btn_background.xml" value="0.3609375" />
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/basket.xml" value="0.3609375" />
+        <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/btn_view_item_background.xml" value="0.3567708333333333" />
+        <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/feedback.xml" value="0.3567708333333333" />
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/ic_add_btn.xml" value="0.2046875" />
+        <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/ic_arrow_back.xml" value="0.3567708333333333" />
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3609375" />
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/ic_main_logo.xml" value="0.3609375" />
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/ic_minus.xml" value="0.3609375" />
@@ -32,7 +35,7 @@
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/menu.xml" value="0.3609375" />
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/rounded_border.xml" value="0.3609375" />
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/drawable/rounded_btn.xml" value="0.3609375" />
-        <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/layout/activity_add_product.xml" value="0.5274555297757154" />
+        <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/layout/activity_add_product.xml" value="0.33" />
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/layout/activity_launch.xml" value="0.34479166666666666" />
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/layout/activity_main.xml" value="0.34479166666666666" />
         <entry key="..\:/Users/karim/coffefuAndroid/app/src/main/res/layout/basket_positions_item.xml" value="0.34479166666666666" />

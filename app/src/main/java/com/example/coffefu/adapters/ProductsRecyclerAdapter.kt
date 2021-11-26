@@ -25,6 +25,7 @@ class ProductsRecyclerAdapter(
     private var typeOfItems: String,
     private var productRecyclerListener: ProductRecyclerListener,
     private var mainActivity: Activity = Activity(),
+    private var productSection: String = "coffee",
 ) :
     RecyclerView.Adapter<ProductsRecyclerAdapter.PositionViewHolder>() {
 
@@ -36,7 +37,7 @@ class ProductsRecyclerAdapter(
         private val coffeeCount: TextView? = itemView.findViewById(R.id.coffee_count)
 
 
-        fun setMenuProduct(product: ProductPosition, context: Context?, activity: Activity) {
+        fun setMenuProduct(product: ProductPosition, context: Context?, activity: Activity, productSection: String) {
             coffeeName?.text = product.getName()
             coffeePrice?.text = product.getStringPrice()
 
@@ -44,6 +45,9 @@ class ProductsRecyclerAdapter(
                 val intent = Intent(context, AddProductActivity::class.java)
                 intent.putExtra("name", coffeeName?.text)
                 intent.putExtra("price", product.getPrice())
+                if (productSection == "Еда") {
+                    intent.putExtra("type", "food")
+                }
                 activity.startActivity(intent)
             }
         }
@@ -90,7 +94,7 @@ class ProductsRecyclerAdapter(
 
     override fun onBindViewHolder(holder: PositionViewHolder, position: Int) {
         when (typeOfItems) {
-            "Menu" -> holder.setMenuProduct(products[position], context, mainActivity)
+            "Menu" -> holder.setMenuProduct(products[position], context, mainActivity, productSection)
             "Basket" -> holder.setBasketProduct(
                 products[position],
                 context,

@@ -3,7 +3,8 @@ package com.example.coffefu.fragments
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,9 @@ import com.example.coffefu.R
 import com.example.coffefu.adapters.ProductsRecyclerAdapter
 import com.example.coffefu.database.DatabaseControl
 import com.example.coffefu.entities.ProductPosition
+import com.example.coffefu.utils.ToastAlert
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -27,17 +30,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 
 interface ProductRecyclerListener {
     fun updateRecycleView()
 }
-
-class RequestException: Exception() {}
 
 data class Order(val coffee_house_id: String, val order_content: String, val time: String)
 
@@ -76,7 +75,13 @@ class Basket : Fragment(), ProductRecyclerListener {
                 timeButton.text = SimpleDateFormat("HH:mm").format(cal.time)
                 picked = true
             }
-            TimePickerDialog(context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
+            TimePickerDialog(
+                context,
+                timeSetListener,
+                cal.get(Calendar.HOUR_OF_DAY),
+                cal.get(Calendar.MINUTE),
+                true
+            ).show()
         }
 
         orderButton.setOnClickListener {
@@ -91,32 +96,61 @@ class Basket : Fragment(), ProductRecyclerListener {
                     }
                 }
                 val response: HttpResponse
-                val date = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
-                runBlocking {
-                    withContext(Dispatchers.IO) {
-                        val orderContent = DatabaseControl().getProductsTask(requireContext())
-                        var oderContentString = ""
-                        var sum = 0
-                        for (product in orderContent) {
-                            oderContentString += "${product.getName()} ${product.getCount()}x \n"
-                            sum += product.getPrice() * product.getCount()
+                val date = LocalDateTime.of(
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH) + 1,
+                    cal.get(Calendar.DAY_OF_MONTH),
+                    cal.get(Calendar.HOUR_OF_DAY),
+                    cal.get(Calendar.MINUTE)
+                )
+                val plus5minutes = LocalDateTime.of(
+                    Calendar.getInstance().get(Calendar.YEAR),
+                    Calendar.getInstance().get(Calendar.MONTH) + 1,
+                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
+                    Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+                    Calendar.getInstance().get(Calendar.MINUTE) + 5
+                )
+                if (LocalDateTime.now() > date) {
+                    Handler(Looper.getMainLooper()).post {
+                        ToastAlert(
+                            requireContext(),
+                            "Неверное время заказа.", Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    if (plus5minutes > date) {
+                        Handler(Looper.getMainLooper()).post {
+                            ToastAlert(
+                                requireContext(),
+                                "Минимальное время выполнения заказа 5 минут.", Toast.LENGTH_SHORT
+                            ).show()
                         }
-                        oderContentString += "Сумма заказа - $sum руб."
-                        try {
-                            response = client.post("https://coffefubot.herokuapp.com") {
-                                contentType(ContentType.Application.Json)
-                                body = Order("1", oderContentString, date.toString())
+                    } else {
+                        runBlocking {
+                            withContext(Dispatchers.IO) {
+                                val orderContent =
+                                    DatabaseControl().getProductsTask(requireContext())
+                                var oderContentString = ""
+                                var sum = 0
+                                for (product in orderContent) {
+                                    oderContentString += "${product.getName()} ${product.getCount()}x \n"
+                                    sum += product.getPrice() * product.getCount()
+                                }
+                                oderContentString += "Сумма заказа - $sum руб."
+                                try {
+                                    response = client.post("https://coffefubot.herokuapp.com") {
+                                        contentType(ContentType.Application.Json)
+                                        body = Order("1234", oderContentString, date.toString())
+                                    }
+
+                                } catch (e: ClientRequestException) {}
                             }
-                            if (response.readText() == "WrongTime") {
-                                Toast.makeText(requireContext(), "Минимальное время выполения заказа 5 мнинут.", Toast.LENGTH_SHORT).show()
-                            } else { }
-                        } catch (e: RequestException) {
-                            Log.e("error", e.toString())
                         }
                     }
                 }
             } else {
-                Toast.makeText(requireContext(), "Пожалуйста, выберите время", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Пожалуйста, выберите время", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -132,10 +166,15 @@ class Basket : Fragment(), ProductRecyclerListener {
         }
         var sum = 0
         for (product in productsList) {
-           sum += product.getPrice() * product.getCount()
+            sum += product.getPrice() * product.getCount()
         }
         orderPrice.text = "Итого: " + sum.toString() + " руб."
-        productsRecyclerAdapter = ProductsRecyclerAdapter(productsList, context, "Basket", this)
+        productsRecyclerAdapter = ProductsRecyclerAdapter(
+            productsList,
+            context,
+            "Basket",
+            this,
+        )
         coffeePositions.layoutManager = LinearLayoutManager(context)
         coffeePositions.adapter = productsRecyclerAdapter
     }

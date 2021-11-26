@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="activeMenuItem">#4D6276</color>
+    <color name="activeMenuItem">#374757</color>
     <color name="menuItem">#758CA3</color>
     <color name="turquoise">#00BCD4</color>
 </resources>

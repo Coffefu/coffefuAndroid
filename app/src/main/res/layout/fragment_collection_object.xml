@@ -4,17 +4,16 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_marginTop="100dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/coffeePositions"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:paddingBottom="50dp"/>
+            android:scrollbars="vertical"/>
 
     </LinearLayout>
 

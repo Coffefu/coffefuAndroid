@@ -68,9 +68,10 @@
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="26dp"
             android:background="@drawable/rounded_border"
-            app:itemIconTint="@color/menuItem"
-            app:itemTextColor="@color/menuItem"
-            app:menu="@menu/bottom_menu" />
+            app:itemIconTint="@color/btn_view_item_background"
+            app:itemTextColor="@color/btn_view_item_background"
+            app:menu="@menu/bottom_menu"
+            />
 
     </RelativeLayout>
 
