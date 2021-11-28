@@ -34,10 +34,14 @@
 
         <TextView
             android:id="@+id/coffee_size"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/black"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/coffee_count"
             app:layout_constraintTop_toTopOf="parent" />
 

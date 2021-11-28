@@ -62,8 +62,8 @@ class ProductsRecyclerAdapter(
             coffeeName?.text = product.getName()
             coffeePrice?.text = product.getStringPrice()
             coffeeCount?.text = product.getCount().toString() + " x"
-            if (productSection == "food") {
-                coffeeSize?.text = product.getSize().toString()
+            if (productSection != "food") {
+                coffeeSize?.text = product.getSize()
             }
             coffeeDelete?.setOnClickListener {
                 runBlocking {

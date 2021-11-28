@@ -12,7 +12,7 @@ interface OrderDao {
     @Query("SELECT * FROM `order` ORDER BY id DESC")
     fun getOrders(): List<ProductPosition>
 
-    @Query("select id, name, sum(count) as count, price from `order` group by name")
+    @Query("select id, name, sum(count) as count, price, size from `order` group by name, size")
     fun sumCounts(): List<ProductPosition>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

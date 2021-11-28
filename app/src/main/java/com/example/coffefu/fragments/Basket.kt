@@ -20,6 +20,8 @@ import com.example.coffefu.adapters.ProductsRecyclerAdapter
 import com.example.coffefu.database.DatabaseControl
 import com.example.coffefu.entities.ProductPosition
 import com.example.coffefu.utils.ToastAlert
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.features.json.*
@@ -80,7 +82,7 @@ class Basket : Fragment(), ProductRecyclerListener {
                 timeSetListener,
                 cal.get(Calendar.HOUR_OF_DAY),
                 cal.get(Calendar.MINUTE),
-                true
+                true,
             ).show()
         }
 
@@ -133,7 +135,7 @@ class Basket : Fragment(), ProductRecyclerListener {
                                 var oderContentString = ""
                                 var sum = 0
                                 for (product in orderContent) {
-                                    oderContentString += "${product.getName()} ${product.getCount()}x \n"
+                                    oderContentString += "${product.getName()} ${product.getCount()}x ${product.getSize()} \n"
                                     sum += product.getPrice() * product.getCount()
                                 }
                                 oderContentString += "Сумма заказа - $sum руб."
