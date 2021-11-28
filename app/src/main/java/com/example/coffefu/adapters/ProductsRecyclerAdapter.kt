@@ -35,6 +35,7 @@ class ProductsRecyclerAdapter(
         private val coffeeAdd: Button? = itemView.findViewById(R.id.coffee_add)
         private val coffeeDelete: Button? = itemView.findViewById(R.id.delete_product)
         private val coffeeCount: TextView? = itemView.findViewById(R.id.coffee_count)
+        private val coffeeSize: TextView? = itemView.findViewById(R.id.coffee_size)
 
 
         fun setMenuProduct(product: ProductPosition, context: Context?, activity: Activity, productSection: String) {
@@ -56,10 +57,14 @@ class ProductsRecyclerAdapter(
             product: ProductPosition,
             context: Context?,
             productRecyclerListener: ProductRecyclerListener,
+            productSection: String
         ) {
             coffeeName?.text = product.getName()
             coffeePrice?.text = product.getStringPrice()
             coffeeCount?.text = product.getCount().toString() + " x"
+            if (productSection == "food") {
+                coffeeSize?.text = product.getSize().toString()
+            }
             coffeeDelete?.setOnClickListener {
                 runBlocking {
                     withContext(Dispatchers.IO) {
@@ -99,6 +104,7 @@ class ProductsRecyclerAdapter(
                 products[position],
                 context,
                 productRecyclerListener,
+                productSection
             )
         }
     }

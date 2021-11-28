@@ -18,6 +18,9 @@ class ProductPosition : Serializable {
     @ColumnInfo(name = "name")
     private var name: String = ""
 
+    @ColumnInfo(name = "size")
+    private var size: String = ""
+
     @ColumnInfo(name = "price")
     private var price: Int = 0
 
@@ -38,6 +41,14 @@ class ProductPosition : Serializable {
 
     fun setName(name: String) {
         this.name = name
+    }
+
+    fun getSize(): String {
+        return size
+    }
+
+    fun setSize(size: String) {
+        this.size = size
     }
 
     fun getCount(): Int {

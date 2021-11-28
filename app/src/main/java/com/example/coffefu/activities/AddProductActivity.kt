@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.coffefu.R
 import com.example.coffefu.database.DatabaseControl
 import com.example.coffefu.entities.ProductPosition
@@ -25,12 +27,25 @@ class AddProductActivity : AppCompatActivity() {
         val plusButton = findViewById<Button>(R.id.plus_count)
         val finalAddButton = findViewById<Button>(R.id.add_btn)
         val productNameTextView = findViewById<TextView>(R.id.product_name)
-        val sizeLayout = findViewById<LinearLayout>(R.id.sizeLayout)
+        val sizeLayout = findViewById<ConstraintLayout>(R.id.sizeLayout)
         val productSize = findViewById<TextView>(R.id.product_size)
 
         val cupSizeM = findViewById<Button>(R.id.cup_size_m)
         val cupSizeS = findViewById<Button>(R.id.cup_size_s)
         val cupSizeL = findViewById<Button>(R.id.cup_size_l)
+        var activeSize = cupSizeM
+
+        fun setActive(active: Button) {
+            cupSizeM.background = ContextCompat.getDrawable(this, R.drawable.rounded_border)
+            cupSizeS.background = ContextCompat.getDrawable(this, R.drawable.rounded_border)
+            cupSizeL.background = ContextCompat.getDrawable(this, R.drawable.rounded_border)
+            active.background = ContextCompat.getDrawable(this, R.drawable.active_size)
+            activeSize = active
+        }
+
+        cupSizeL.setOnClickListener { setActive(cupSizeL) }
+        cupSizeM.setOnClickListener { setActive(cupSizeM) }
+        cupSizeS.setOnClickListener { setActive(cupSizeS) }
 
         var product: ProductPosition
         val productPrice = intent.getIntExtra("price", 0)
@@ -66,6 +81,9 @@ class AddProductActivity : AppCompatActivity() {
             product.setName(intent.getStringExtra("name")!!)
             product.setCount(productCountTextView.text.toString().toInt())
             product.setPrice(productPrice.toString().toInt())
+            if (typeOfProduct != "food") {
+                product.setSize(activeSize.text as String)
+            }
 
             runBlocking {
                 withContext(Dispatchers.IO) {

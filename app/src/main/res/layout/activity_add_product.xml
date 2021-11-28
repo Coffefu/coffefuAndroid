@@ -116,7 +116,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/countLayout" />
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/sizeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -130,21 +130,39 @@
                         android:id="@+id/cup_size_s"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="S" />
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_border"
+                        android:text="S"
+                        android:textSize="32sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <Button
                         android:id="@+id/cup_size_m"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="M"/>
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_border"
+                        android:text="M"
+                        android:textSize="32sp"
+                        app:layout_constraintStart_toEndOf="@+id/cup_size_s"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <Button
                         android:id="@+id/cup_size_l"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="L"/>
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_border"
+                        android:text="L"
+                        android:textSize="32sp"
+                        app:layout_constraintStart_toEndOf="@+id/cup_size_m"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
