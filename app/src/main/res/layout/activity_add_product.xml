@@ -150,18 +150,6 @@
                         app:layout_constraintStart_toEndOf="@+id/cup_size_s"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
-                        android:id="@+id/cup_size_l"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/rounded_border"
-                        android:text="L"
-                        android:textSize="32sp"
-                        app:layout_constraintStart_toEndOf="@+id/cup_size_m"
-                        app:layout_constraintTop_toTopOf="parent" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

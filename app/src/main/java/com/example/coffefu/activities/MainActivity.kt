@@ -29,25 +29,25 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().add(R.id.flFragment, feedback).hide(feedback)
             .commit()
 
+        fun updateFragment(new: Fragment) {
+            supportFragmentManager.beginTransaction().hide(active).show(new)
+                .commit()
+            active = new
+        }
+
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.menu -> {
-                    supportFragmentManager.beginTransaction().hide(active).show(menu)
-                        .commit()
-                    active = menu
+                    updateFragment(menu)
                 }
 
                 R.id.basket -> {
-                    supportFragmentManager.beginTransaction().hide(active).show(basket)
-                        .commit()
-                    active = basket
+                    updateFragment(basket)
                     basket.updateRecycleView()
                 }
 
                 R.id.feedback -> {
-                    supportFragmentManager.beginTransaction().hide(active).show(feedback)
-                        .commit()
-                    active = feedback
+                    updateFragment(feedback)
                 }
             }
             true

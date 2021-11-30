@@ -18,7 +18,7 @@ import com.example.coffefu.entities.ProductPosition
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-val tabNames = arrayOf("Кофе", "Чай", "Еда")
+val tabNames = arrayOf("Кофе", "Не кофе")
 
 class Menu(private var mainActivity: Activity) : Fragment(), ProductRecyclerListener {
     private lateinit var menuAdapter: CollectionAdapter
@@ -91,22 +91,103 @@ class FragmentFactory(
             val productsList: List<ProductPosition>
 
             var productNames = arrayOf("")
-            var productsPrices = arrayOf(0)
+            var productsPrices = arrayOf("")
 
             // TODO make data as json or maybe store in database!!!
-            when(position) {
+            when (position) {
                 0 -> {
-                    productNames = arrayOf("Раф", "Латте", "Американо", "Капучино", "Мокко", "Тестовое очень длинное название", "Раф бананновый", "Горячий шоколад", "Эспрессо")
-                    productsPrices = arrayOf(180, 120, 100, 150, 200, 180, 165, 220, 90)
+                    productNames = arrayOf(
+                        "Эспрессо двойной",
+                        "Фильтр кофе",
+                        "Американо",
+                        "Американо с молоком",
+                        "Американо на молоке",
+                        "Капучино",
+                        "Латте",
+                        "Флэт Уайт",
+                        "Раф классический",
+                        "Мокко",
+                        "Айс Латте",
+                        "Медовый американо",
+                        "Медовый капучино с османтусом",
+                        "Тайский Латте",
+                        "Раф пряный",
+                        "Раф ОРЕО",
+                        "Раф \"Банановый пирог\"",
+                        "Бамбл жасмин-грейпфрут"
+                    )
+                    productsPrices = arrayOf(
+                        "110",
+                        "90/110",
+                        "90/110",
+                        "120/140",
+                        "130/150",
+                        "130/180",
+                        "150/180",
+                        "150",
+                        "185/225",
+                        "180",
+                        "180",
+                        "150",
+                        "180",
+                        "200",
+                        "225",
+                        "250",
+                        "250",
+                        "175"
+                    )
                 }
                 1 -> {
-                    productNames = arrayOf("Мятный чай", "Черный чай")
-                    productsPrices = arrayOf(120, 100)
-                }
-                2 -> {
-                    coffeePositions.updatePadding(bottom = 80)
-                    productNames = arrayOf("Сэндвич с курицей", "Пирожное")
-                    productsPrices = arrayOf(140, 160)
+                    productNames = arrayOf(
+                        "Горячий шоколад",
+                        "Какао",
+                        "Какао с маршмелоу",
+                        "Матча латте",
+                        "Черный чай",
+                        "Зеленый чай",
+                        "Фруктовый чай",
+                        "Облепиховый чай",
+                        "Медовый час с жасмином и персиком",
+                        "Ягодный ТиДжо с помелло",
+                        "Лили Роуз",
+                        "Манго-манго",
+                        "Пинк-матча",
+                        "Матча-латте",
+                        "Лимонад апельсин-личи",
+                        "Лимонад жасмин-грейпфрут",
+                        "Лимонад классический",
+                        "Лимонад мохитовый джем",
+                        "Матча-лимонад",
+                        "Фондо-марино",
+                        "Фрэш Доуп Киви",
+                        "Банана-матча",
+                        "Кокосовый какао"
+                    )
+                    productsPrices = arrayOf(
+                        "175",
+                        "180",
+                        "210",
+                        "175",
+                        "80",
+                        "80",
+                        "80",
+                        "175",
+                        "175",
+                        "185",
+                        "185",
+                        "185",
+                        "200",
+                        "175/200",
+                        "180",
+                        "180",
+                        "180",
+                        "180",
+                        "200",
+                        "175",
+                        "200",
+                        "225",
+                        "225"
+                    )
                 }
             }
             val coffee = mutableListOf<ProductPosition>()

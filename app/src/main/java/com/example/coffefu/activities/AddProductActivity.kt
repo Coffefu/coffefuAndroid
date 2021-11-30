@@ -32,27 +32,24 @@ class AddProductActivity : AppCompatActivity() {
 
         val cupSizeM = findViewById<Button>(R.id.cup_size_m)
         val cupSizeS = findViewById<Button>(R.id.cup_size_s)
-        val cupSizeL = findViewById<Button>(R.id.cup_size_l)
         var activeSize = cupSizeM
 
         fun setActive(active: Button) {
             cupSizeM.background = ContextCompat.getDrawable(this, R.drawable.rounded_border)
             cupSizeS.background = ContextCompat.getDrawable(this, R.drawable.rounded_border)
-            cupSizeL.background = ContextCompat.getDrawable(this, R.drawable.rounded_border)
             active.background = ContextCompat.getDrawable(this, R.drawable.active_size)
             activeSize = active
         }
 
-        cupSizeL.setOnClickListener { setActive(cupSizeL) }
         cupSizeM.setOnClickListener { setActive(cupSizeM) }
         cupSizeS.setOnClickListener { setActive(cupSizeS) }
 
         var product: ProductPosition
-        val productPrice = intent.getIntExtra("price", 0)
+        val productPrice = intent.getStringExtra("price")
         val productName = intent.getStringExtra("name")
-        val typeOfProduct = intent.getStringExtra("type")
 
-        if (typeOfProduct == "food") {
+        val prices = productPrice?.split("/")
+        if (prices?.size != null && prices.size == 1) {
             sizeLayout.visibility = View.GONE
             productSize.visibility = View.GONE
         }
@@ -77,13 +74,19 @@ class AddProductActivity : AppCompatActivity() {
         }
 
         finalAddButton.setOnClickListener {
+            var activeSizeIndex = 0
+            if (prices?.size != null && prices.size > 1) {
+                activeSizeIndex = when(activeSize) {
+                    cupSizeM -> 1
+                    cupSizeS -> 0
+                    else -> 0
+                }
+            }
             product = ProductPosition()
             product.setName(intent.getStringExtra("name")!!)
             product.setCount(productCountTextView.text.toString().toInt())
-            product.setPrice(productPrice.toString().toInt())
-            if (typeOfProduct != "food") {
-                product.setSize(activeSize.text as String)
-            }
+            product.setSize(activeSize.text as String)
+            product.setPrice(prices!![activeSizeIndex])
 
             runBlocking {
                 withContext(Dispatchers.IO) {

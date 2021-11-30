@@ -109,8 +109,9 @@ class Basket : Fragment(), ProductRecyclerListener {
                     Calendar.getInstance().get(Calendar.YEAR),
                     Calendar.getInstance().get(Calendar.MONTH) + 1,
                     Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
-                    Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
-                    Calendar.getInstance().get(Calendar.MINUTE) + 5
+                    (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + (Calendar.getInstance()
+                        .get(Calendar.MINUTE) + 5) / 60) % 23,
+                    (Calendar.getInstance().get(Calendar.MINUTE) + 5) % 60
                 )
                 if (LocalDateTime.now() > date) {
                     Handler(Looper.getMainLooper()).post {
@@ -133,21 +134,38 @@ class Basket : Fragment(), ProductRecyclerListener {
                                 val orderContent =
                                     DatabaseControl().getProductsTask(requireContext())
                                 var oderContentString = ""
-                                var sum = 0
+
                                 for (product in orderContent) {
                                     oderContentString += "${product.getName()} ${product.getCount()}x ${product.getSize()} \n"
-                                    sum += product.getPrice() * product.getCount()
                                 }
-                                oderContentString += "Сумма заказа - $sum руб."
-                                try {
-                                    response = client.post("https://coffefubot.herokuapp.com") {
-                                        contentType(ContentType.Application.Json)
-                                        body = Order("1234", oderContentString, date.toString())
+                                if (oderContentString == "") {
+                                    Handler(Looper.getMainLooper()).post {
+                                        ToastAlert(
+                                            requireContext(),
+                                            "Ваша корзина пуста.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
+                                } else {
+                                    try {
+                                        response = client.post("https://coffefubot.herokuapp.com") {
+                                            contentType(ContentType.Application.Json)
+                                            body = Order("1234", oderContentString, date.toString())
+                                        }
+                                        DatabaseControl().deleteProductsTask(requireContext())
 
-                                } catch (e: ClientRequestException) {}
+                                    } catch (e: ClientRequestException) { }
+                                    Handler(Looper.getMainLooper()).post {
+                                        ToastAlert(
+                                            requireContext(),
+                                            "Заказ выполнен.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
                             }
                         }
+                        this.updateRecycleView()
                     }
                 }
             } else {
@@ -168,7 +186,7 @@ class Basket : Fragment(), ProductRecyclerListener {
         }
         var sum = 0
         for (product in productsList) {
-            sum += product.getPrice() * product.getCount()
+            sum += product.getPrice().toInt() * product.getCount()
         }
         orderPrice.text = "Итого: " + sum.toString() + " руб."
         productsRecyclerAdapter = ProductsRecyclerAdapter(

@@ -38,17 +38,14 @@ class ProductsRecyclerAdapter(
         private val coffeeSize: TextView? = itemView.findViewById(R.id.coffee_size)
 
 
-        fun setMenuProduct(product: ProductPosition, context: Context?, activity: Activity, productSection: String) {
+        fun setMenuProduct(product: ProductPosition, context: Context?, activity: Activity) {
             coffeeName?.text = product.getName()
-            coffeePrice?.text = product.getStringPrice()
+            coffeePrice?.text = product.getPrice()
 
             coffeeAdd?.setOnClickListener {
                 val intent = Intent(context, AddProductActivity::class.java)
                 intent.putExtra("name", coffeeName?.text)
                 intent.putExtra("price", product.getPrice())
-                if (productSection == "Еда") {
-                    intent.putExtra("type", "food")
-                }
                 activity.startActivity(intent)
             }
         }
@@ -57,14 +54,11 @@ class ProductsRecyclerAdapter(
             product: ProductPosition,
             context: Context?,
             productRecyclerListener: ProductRecyclerListener,
-            productSection: String
         ) {
             coffeeName?.text = product.getName()
-            coffeePrice?.text = product.getStringPrice()
+            coffeePrice?.text = product.getPrice()
             coffeeCount?.text = product.getCount().toString() + " x"
-            if (productSection != "food") {
-                coffeeSize?.text = product.getSize()
-            }
+            coffeeSize?.text = product.getSize()
             coffeeDelete?.setOnClickListener {
                 runBlocking {
                     withContext(Dispatchers.IO) {
@@ -99,12 +93,11 @@ class ProductsRecyclerAdapter(
 
     override fun onBindViewHolder(holder: PositionViewHolder, position: Int) {
         when (typeOfItems) {
-            "Menu" -> holder.setMenuProduct(products[position], context, mainActivity, productSection)
+            "Menu" -> holder.setMenuProduct(products[position], context, mainActivity)
             "Basket" -> holder.setBasketProduct(
                 products[position],
                 context,
                 productRecyclerListener,
-                productSection
             )
         }
     }

@@ -20,4 +20,7 @@ interface OrderDao {
 
     @Query("DELETE FROM 'order' WHERE name = :name")
     fun deleteProduct(name: String)
+
+    @Query("DELETE FROM 'order'")
+    fun deleteProducts()
 }

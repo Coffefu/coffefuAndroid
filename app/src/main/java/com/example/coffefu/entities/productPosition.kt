@@ -22,7 +22,7 @@ class ProductPosition : Serializable {
     private var size: String = ""
 
     @ColumnInfo(name = "price")
-    private var price: Int = 0
+    private var price: String = ""
 
     @ColumnInfo(name = "count")
     private var count: Int = 0
@@ -59,15 +59,11 @@ class ProductPosition : Serializable {
         this.count = count
     }
 
-    fun getStringPrice(): String {
-        return "$price руб."
-    }
-
-    fun getPrice(): Int {
+    fun getPrice(): String {
         return price
     }
 
-    fun setPrice(price: Int) {
+    fun setPrice(price: String) {
         this.price = price
     }
 

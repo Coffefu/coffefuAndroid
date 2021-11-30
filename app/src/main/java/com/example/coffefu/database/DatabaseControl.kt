@@ -18,6 +18,12 @@ class DatabaseControl {
         }
     }
 
+    suspend fun deleteProductsTask(applicationContext: Context) {
+        return withContext(Dispatchers.IO) {
+            OrderDatabase.getAppDataBase(applicationContext)?.orderDao()?.deleteProducts()
+        }
+    }
+
     suspend fun getSumCounts(applicationContext: Context): List<ProductPosition> {
         val tmp: List<ProductPosition>
          withContext(Dispatchers.IO) {
