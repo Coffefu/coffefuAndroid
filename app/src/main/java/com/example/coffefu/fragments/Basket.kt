@@ -9,9 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,8 +22,6 @@ import com.example.coffefu.adapters.ProductsRecyclerAdapter
 import com.example.coffefu.database.DatabaseControl
 import com.example.coffefu.entities.ProductPosition
 import com.example.coffefu.utils.ToastAlert
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.features.json.*
@@ -50,6 +50,9 @@ class Basket : Fragment(), ProductRecyclerListener {
     private lateinit var orderPrice: TextView
     private lateinit var orderButton: Button
     private lateinit var timeButton: Button
+    private lateinit var userName: EditText
+    private lateinit var corpusD: Button
+    private lateinit var corpusE: Button
     private var hour: Int = 0
     private var minute: Int = 0
 
@@ -67,6 +70,25 @@ class Basket : Fragment(), ProductRecyclerListener {
         orderPrice = view.findViewById(R.id.order_price)
         orderButton = view.findViewById(R.id.order_btn)
         timeButton = view.findViewById(R.id.time_btn)
+        userName = view.findViewById(R.id.username)
+
+        corpusD = view.findViewById(R.id.corpus_d)
+        corpusE = view.findViewById(R.id.corpus_e)
+        var activeCorpus = corpusD
+
+        fun changeActiveCorpus(newActive: Button) {
+            corpusD.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_border)
+            corpusE.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_border)
+            activeCorpus = newActive
+            newActive.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.active_size)
+        }
+
+        corpusD.setOnClickListener { changeActiveCorpus(corpusD) }
+        corpusE.setOnClickListener { changeActiveCorpus(corpusE) }
+
         var picked = false
 
         val cal = Calendar.getInstance()
@@ -87,6 +109,14 @@ class Basket : Fragment(), ProductRecyclerListener {
         }
 
         orderButton.setOnClickListener {
+
+            if (userName.text.toString() == "") {
+                ToastAlert(
+                    requireContext(),
+                    "Не введено имя.", Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
 
             if (picked) {
                 val client = HttpClient() {
@@ -133,12 +163,12 @@ class Basket : Fragment(), ProductRecyclerListener {
                             withContext(Dispatchers.IO) {
                                 val orderContent =
                                     DatabaseControl().getProductsTask(requireContext())
-                                var oderContentString = ""
+                                var orderContentString = ""
 
                                 for (product in orderContent) {
-                                    oderContentString += "${product.getName()} ${product.getCount()}x ${product.getSize()} \n"
+                                    orderContentString += "${product.getName()} ${product.getCount()}x ${product.getSize()} \n"
                                 }
-                                if (oderContentString == "") {
+                                if (orderContentString == "") {
                                     Handler(Looper.getMainLooper()).post {
                                         ToastAlert(
                                             requireContext(),
@@ -148,13 +178,16 @@ class Basket : Fragment(), ProductRecyclerListener {
                                     }
                                 } else {
                                     try {
+                                        orderContentString += "Имя заказчика - ${userName.text}\n"
+                                        orderContentString += "Кофейня - ${activeCorpus.text}"
                                         response = client.post("https://coffefubot.herokuapp.com") {
                                             contentType(ContentType.Application.Json)
-                                            body = Order("1234", oderContentString, date.toString())
+                                            body = Order("1234", orderContentString, date.toString())
                                         }
                                         DatabaseControl().deleteProductsTask(requireContext())
 
-                                    } catch (e: ClientRequestException) { }
+                                    } catch (e: ClientRequestException) {
+                                    }
                                     Handler(Looper.getMainLooper()).post {
                                         ToastAlert(
                                             requireContext(),

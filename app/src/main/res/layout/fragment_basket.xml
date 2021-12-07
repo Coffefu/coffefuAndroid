@@ -27,33 +27,127 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/coffee_house"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="40dp"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/order_price"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/coffeePositions">
 
                 <TextView
+                    android:textAlignment="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Время получения заказа"
+                    android:text="Выбор кофейни"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:layout_marginBottom="10dp"/>
+
+               <androidx.constraintlayout.widget.ConstraintLayout
+                   android:orientation="horizontal"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+
+                   <Button
+                       android:id="@+id/corpus_d"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="5dp"
+                       android:background="@drawable/active_size"
+                       android:padding="5dp"
+                       android:text="Корпус D, 7 этаж"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toStartOf="@+id/corpus_e"
+                       app:layout_constraintHorizontal_bias="0.0"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent" />
+
+                   <Button
+                       android:id="@+id/corpus_e"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginEnd="5dp"
+                       android:background="@drawable/rounded_border"
+                       android:padding="5dp"
+                       android:text="Корпус E, 7 этаж"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintTop_toTopOf="parent" />
+
+               </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/coffee_house">
+
+                <TextView
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Имя заказчика"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:inputType="text"
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_border"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:autofillHints="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/order_price"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_name">
+
+                <TextView
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Время получения заказа"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
                 <Button
                     android:id="@+id/time_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
                     android:background="@drawable/rounded_border"
-                    android:text="Выбрать время" />
+                    android:text="Выбрать время"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
