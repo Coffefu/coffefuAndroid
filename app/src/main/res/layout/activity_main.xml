@@ -70,8 +70,7 @@
             android:background="@drawable/rounded_border"
             app:itemIconTint="@color/btn_view_item_background"
             app:itemTextColor="@color/btn_view_item_background"
-            app:menu="@menu/bottom_menu"
-            />
+            app:menu="@menu/bottom_menu" />
 
     </RelativeLayout>
 

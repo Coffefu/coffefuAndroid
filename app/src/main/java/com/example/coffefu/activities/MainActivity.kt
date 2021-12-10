@@ -6,14 +6,14 @@ import androidx.fragment.app.Fragment
 import com.example.coffefu.fragments.Basket
 import com.example.coffefu.fragments.Menu
 import com.example.coffefu.R
-import com.example.coffefu.fragments.Feedback
+import com.example.coffefu.fragments.Profile
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private val menu = Menu(this)
     private val basket = Basket()
-    private val feedback = Feedback()
+    private val profile = Profile()
 
     private var active: Fragment = menu
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().add(R.id.flFragment, menu, "menu").commit()
         supportFragmentManager.beginTransaction().add(R.id.flFragment, basket, "basket")
             .hide(basket).commit()
-        supportFragmentManager.beginTransaction().add(R.id.flFragment, feedback).hide(feedback)
+        supportFragmentManager.beginTransaction().add(R.id.flFragment, profile).hide(profile)
             .commit()
 
         fun updateFragment(new: Fragment) {
@@ -46,8 +46,8 @@ class MainActivity : AppCompatActivity() {
                     basket.updateRecycleView()
                 }
 
-                R.id.feedback -> {
-                    updateFragment(feedback)
+                R.id.profile -> {
+                    updateFragment(profile)
                 }
             }
             true
